@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>DisPlace - View Canvas</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A Discord-powered drawing game">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+        <style>
+            body {
+                background-color: #2C2F33;
+            }
+            .content-container {
+                color:#FFFFFF;
+                font-family: 'Open Sans', sans-serif;
+            }
+            h1 {
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 600;
+            }
+        </style>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="/"><span style='color:#7289DA'>Dis</span>Place</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/add">Add Bot</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/api/showCanvas">View Canvas <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+             </nav>
+             <div class="container-fluid content-container">
+                <div class="row">
+                     <div class="col-12 text-center">
+                        <h1 class="text-center">View the Canvas</h1>
+                     </div>
+                </div>
+                <div class="row">
+                    <div class="canvasWrapper" style="background-color:#23272A; display:inline-block; margin:0 auto; width:800px; height:800px; max-width:100%; overflow:hidden;">
+                        <canvas id="renderCanvas" style="overflow:scroll;" width="800" height="800"></canvas>
+                    </div>
+                </div>
+             </div>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <script>
+            $(document).ready(function() {
+                const canvas = document.getElementById('renderCanvas');
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const inpData = <%- JSON.stringify(pointData) %>;
+                const squareDimension = Math.floor(canvas.width / Object.keys(inpData).length);
+                for(y in inpData) {
+                    for(x in inpData[y]) {
+                        ctx.fillStyle = inpData[y][x];
+                        ctx.fillRect(x*squareDimension, y*squareDimension, squareDimension, squareDimension);
+                    }
+                }
+            });
+            </script>
+        </body>
+    </head>
+</html>
