@@ -47,5 +47,24 @@ class gridWeb {
         });
         res.end(buffer); 
     }
+    renderWholeGrid(req, res) {
+        //find non-white points
+        let paintedData = {};
+        for(let y=0; y<this.gridInstance.height; y++) {
+            let paintedRow = {};
+            if(this.gridInstance.grid[y] == null) {
+                continue;
+            }
+            for(let x=0; x<this.gridInstance.width; x++) {
+                if(this.gridInstance.grid[y][x] !== "white")
+                {
+                    paintedRow[x] = this.gridInstance.grid[y][x];
+                }
+            }
+            paintedData[y] = paintedRow;
+        }
+        //res.render('renderGrid.ejs', { 'pointData' :  paintedData});
+        res.render('renderGrid.ejs', { 'pointData' :  paintedData});
+    }
 }
 module.exports = gridWeb;
