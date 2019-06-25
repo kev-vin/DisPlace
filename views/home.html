@@ -1,1 +1,125 @@
-
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>DisPlace - Home</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A Discord-powered drawing game">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+        <style>
+            body {
+                background-color: #2C2F33;
+            }
+            .content-container {
+                color:#FFFFFF;
+                font-family: 'Open Sans', sans-serif;
+            }
+            h1, h2 {
+                font-family: 'Open Sans', sans-serif;
+                font-weight: 600;
+            }
+            .jumbotron {
+                background-color: #23272A;
+                background-image: url(img/grid.png);
+                background-repeat: repeat;
+            }
+            .page-footer {
+                color:#FFFFFF;
+                background-color: #23272A;
+            }
+            .add-button {
+                display: inline-block;
+                background-color: #7289da;
+                border-radius:3px;
+                cursor:pointer;
+                font-size:15px;
+                text-transform: uppercase;
+                color:#fff;
+                padding:15px 25px;
+                transition: all .2s ease-in-out;
+                max-width: 300px;
+            }
+            .add-button:hover {
+                text-decoration:none;
+                background-color: #2C2F33;
+                transition: all .2s ease-in-out;
+            }
+            .row-margin {
+                margin-bottom:20px;
+            }
+        </style>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="/"><span style='color:#7289DA'>Dis</span>Place</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" style="text-align:center;">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/add">Add Bot</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/api/showCanvas">View Canvas</a>
+                        </li>
+                    </ul>
+                </div>
+             </nav>
+             <div class="container-fluid content-container" style="padding:0;">
+                <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
+                        <div class="col-12 text-center">
+                            <h1 class="text-center"><span style='color:#7289DA';>Dis</span>Place</h1>
+                            <p class="lead">A discord-powered, community-driven drawing game</p>
+                            <a style="text-decoration: none;" href="/add"><div class="add-button">Add to server</div></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-margin">
+                    <div class="col-md-4 text-center">
+                        <h2>Community Brush</h2>
+                        <img draggable="false" style="display: inline-block; border-radius:10px;" src="img/demo1.png"/>
+                        <p>Create a brush for your Discord server and allow it to be controlled by your community.</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h2>Collaborate on a Design</h2>
+                        <img draggable="false" style="display: inline-block; border-radius:10px;" src="img/demo2.gif"/>
+                        <p>Work with members of your community or other discord servers to create a design!</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h2>See Everyone's Work</h2>
+                        <img draggable="false" style="display: inline-block; border-radius:10px;" src="img/demo3.png"/>
+                        <p>See the <a href="/api/showCanvas">entire canvas</a> and admire your work or the work of other communities.</p>
+                    </div>
+                </div><br/>
+                <div class="row row-margin">
+                    <div class="col-md-6 text-center" style="margin:0 auto">
+                        <h3><span style='color:#7289DA'>Dis</span>Place - a Hack Week Project</h3>
+                        <img src="img/hackweek.png" style="height:150px"/>
+                        <p>This week, hundreds of brilliant people are creating super cool projects, from clever & wacky Discord bots to sweet artwork, music, and stories. For our submission, we really wanted to challenge ourselves by teaching ourselves more about awesome open source technologies and testing the scope of Discord's powerful developer API. We had tonnes of fun on this project, and are excited to play around with the other great submissions! Displace is a collaborative drawing tool, where individual communities are encouraged to organise themselves and work together to create art on a shared canvas across all connected communities. We're excited to see what you will make! Add your community to join the fun. </p>
+                    </div>
+                </div><br/>
+                <div class="row">
+                    <div class="col-12 text-center"><h5 style="font-weight:700">Powered by Open-Source Technology</h5></div>
+                </div>
+                <div class="row row-margin">
+                    <div class="col-md-2 text-center"><img draggable="false" style="display: inline-block; margin-bottom:5px; width:50px;" src="img/tech/nodejs.png"/><p>NodeJS</p></div>
+                    <div class="col-md-2 text-center"><img draggable="false" style="display: inline-block; margin-bottom:5px; width:50px;" src="img/tech/express.png"/><p>Express</p></div>
+                    <div class="col-md-2 text-center"><img draggable="false" style="display: inline-block; margin-bottom:5px; width:50px;" src="img/tech/sqlite.png"/><p>SQLite</p></div>
+                    <div class="col-md-2 text-center"><img draggable="false" style="display: inline-block; margin-bottom:5px; width:50px;" src="img/tech/socketio.png"/><p>Socket.IO</p></div>
+                    <div class="col-md-2 text-center"><img draggable="false" style="display: inline-block; margin-bottom:5px; width:50px;" src="img/tech/cairo.png"/><p>Cairo</p></div>
+                    <div class="col-md-2 text-center"><img draggable="false" style="display: inline-block; margin-bottom:5px; width:50px;" src="img/tech/nginx.png"/><p>NGINX</p></div>
+                </div>
+            </div>
+            <footer class="page-footer">
+                <div class="footer-copyright text-center py-3">&copy; 2019 DisPlace.cc. This site is not associated with Discord, it is an entry to their <a target="_blank" href="https://blog.discordapp.com/discord-community-hack-week-build-and-create-alongside-us-6b2a7b7bba33">HackWeek contest.</a></div>    
+            </footer>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        </body>
+    </head>
+</html>
