@@ -1,13 +1,11 @@
 //Kevin & SegFault's Discord Hackweek Submission
 //main.js
 
+const config = require('./config.json');
 const Discord = require('discord.js');
 const Grid = require('./grid.js');
 const webServer = require('./web.js');
 const client = new Discord.Client();
-
-//let gridInstance = new Grid(500, 500);
-
 
 let connectedGuilds = {};
 let gameGrid;
@@ -178,4 +176,4 @@ client.on('message', msg => {
   }
 });
 
-client.login('NTkxNjIwOTk3OTEyOTg1NjAw.XQzcDQ.OiUvF12X_7eqsWWr-BqHqjyQLVk');
+client.login(config.token);
