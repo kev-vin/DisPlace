@@ -49,7 +49,7 @@ class Grid {
                 }
             }.bind(this));
         });
-        setInterval(function() { this.saveGrid() }.bind(this), 15000); //10 minute save interval 600000
+        setInterval(function() { this.saveGrid() }.bind(this), 600000); //10 minute save interval 600000
     }
     /** 
     * Creates a brush for a guild.
