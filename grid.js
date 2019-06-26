@@ -7,10 +7,10 @@ class Grid {
     constructor (_width, _height) {
         this.width  = _width;
         this.height = _height;
-        this.grid = [];
+        this.grid =    [];
         this.brushes = [];
         for(let y=0; y<this.height; y++) {
-            let row = [];
+            let row  = [];
             for(let x=0; x<this.width; x++) {
                 row.push("white"); //rgb(255, 255, 255); white
                 //row.push("#"+((1<<24)*Math.random()|0).toString(16));
@@ -28,7 +28,7 @@ class Grid {
             database.run(`CREATE TABLE IF NOT EXISTS grid (
                 x INT,
                 y INT,
-                color INT,
+                color VARCHAR(16),
                 PRIMARY KEY (x,y)
             );`);
 
@@ -39,8 +39,17 @@ class Grid {
                 PRIMARY KEY (guild)
             );`);
 
-            //TODO: load existing brushes and existing tiles into memory
+            //load existing tiles into memory
+            database.each("SELECT * FROM grid WHERE x<=$width AND y<=$height", {$width: this.width, $height: this.height}, function (err, row) {
+                if(err) {
+                    throw err;
+                }
+                if( this.grid[row.y] !== null) {
+                    this.grid[row.y][row.x]   = row.color;
+                }
+            }.bind(this));
         });
+        setInterval(function() { this.saveGrid() }.bind(this), 15000); //10 minute save interval 600000
     }
     /** 
     * Creates a brush for a guild.
@@ -68,7 +77,7 @@ class Grid {
     getBrush(guild) {
         //see if it is in memory
         if(guild in this.brushes) {
-            return this.brushes[guild];
+            return  this.brushes[guild];
         }
         //otherwise get it from the database
         database.serialize( () => {
@@ -90,7 +99,7 @@ class Grid {
     */
     getBrushColor(guild) {
         if(guild in this.brushes) {
-            return this.brushes[guild][2];
+            return  this.brushes[guild][2];
         }
         return "black";
     }
@@ -102,7 +111,7 @@ class Grid {
     */
     getBrushState(guild) {
         if(guild in this.brushes) {
-            return this.brushes[guild][3];
+            return  this.brushes[guild][3];
         }
         return true;
     }
@@ -177,14 +186,14 @@ class Grid {
         }
         switch(direction) {
             case 1: //up
-                this.brushes[guild][1]--; //update y position
-                if(this.brushes[guild][3]) {
+                    this.brushes[guild][1]--; //update y position
+                if( this.brushes[guild][3]) {
                     this.grid[this.brushes[guild][1]][this.brushes[guild][0]] = this.brushes[guild][2]; //color tile at grid[y][x]
                 }
                 break;
             case 2: //right
                 this.brushes[guild][0]++; //update x position
-                if(this.brushes[guild][3]) {
+                if( this.brushes[guild][3]) {
                     this.grid[this.brushes[guild][1]][this.brushes[guild][0]] = this.brushes[guild][2]; //color tile at grid[y][x]
                 }
                 break;
@@ -227,7 +236,28 @@ class Grid {
      * Commit the grid to the database
      */
     saveGrid() {
-
+        console.log("Saving the grid");
+        database.serialize( () => {
+            for(let y=0; y<this.height; y++) {
+                if(this.grid[y] == null) {
+                    continue;
+                }
+                for(let x=0; x<this.width; x++) {
+                    if(this.grid[y][x] !== "white")
+                    {
+                        let color = this.grid[y][x];
+                        database.run("REPLACE INTO grid(x, y, color) VALUES($x, $y, $color)", {$x: x, $y: y, $color: color});
+                        console.log('<3');
+                    }
+                }
+            }
+            this.brushes.forEach(function(guild, brush) {
+                if(brush[0] <= this.width && brush[1] <= this.height) {
+                    database.run("REPLACE INTO brushes(x, y, guild) VALUES($x, $y, $guild)", {$x: brush[0], $y: brush[1], $guild: guild});
+                }
+            }.bind(this));
+        });
     }
 }
 module.exports = Grid;
+// dear mr code. pls work now ty.
