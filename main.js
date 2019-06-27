@@ -9,6 +9,7 @@ const client = new Discord.Client();
 
 let connectedGuilds = {};
 let gameGrid;
+let gameServer;
 const brushStates =        {'🖌'  : true, '❌': false};
 const translateMovements = {'🔼' : 1, '▶' : 2, '🔽' : 3, '◀' : 4};
 const translateColors =    {'🔴' : 'red', '💚' : 'green', '🔵' : 'blue', '💛' : 'yellow', '⚫' : 'black', '⚪' : 'white'};
@@ -116,7 +117,6 @@ client.on('messageReactionAdd', (r, u) => {
     } 
     else if (r.emoji.name in translateMovements) {
       try {
-        console.log(rGuild);
         gameGrid.moveBrush(translateMovements[r.emoji.name], rGuild);
         mess.edit(genEmbed(mess.guild.id)).catch((e)=>console.log(e)) //Update image
       } catch(e){ console.log(e); }
@@ -163,17 +163,7 @@ client.on("guildDelete", guild => {
   //Remove guild from object.
   delete connectedGuilds[guild.id];
   console.log("The following Guild has been removed: " + guild.name);
-  console.log(connectedGuilds);
 
 })
-
-client.on('message', msg => {
-  if(msg.content=='shutdown'){
-    process.exit();
-  }
-  if(msg.content=='guilds'){
-    console.log(connectedGuilds);
-  }
-});
 
 client.login(config.token);
