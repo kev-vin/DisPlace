@@ -4,13 +4,17 @@ const { createCanvas, loadImage } = require('canvas')
 class gridWeb {
     constructor(_gridInstance) {
         this.gridInstance = _gridInstance;
+        this.gridInstance.onTilePaint = function(x, y, color) { this.canvasUpdate(x, y, color) }.bind(this);
         this.app = express();
         this.app.get('/api/renderZoomedGrid/:guildId/:time.png', (req, res) => this.renderZoomed(req, res));
         this.app.get('/api/showCanvas', (req, res) => this.renderWholeGrid(req, res));
         this.app.use(function(req, res, next) {
             return res.status(404).send({ message: '404 - Not Found' });
         });
-        this.app.listen(3000, () => console.log(`API web server is running!`))
+        this.server = require('http').Server(this.app);
+        this.io = require('socket.io')(this.server, { path: '/api/socket' });
+        //this.app.listen(3000, () => console.log(`API web server is running!`))
+        this.server.listen(3000, () => console.log(`API web server is running!`))
     }
     renderZoomed(req, res) {
         let guild = req.params.guildId;
@@ -40,6 +44,26 @@ class gridWeb {
                 ctx.fillRect((x - (brushX-offset))*squareSide, (y - (brushY-offset))*squareSide, squareSide, squareSide);
             }
         }
+        if((brushX + offset) > this.gridInstance.width) {
+            let position = this.gridInstance.width - (brushX - offset);
+            ctx.fillStyle = "grey";
+            ctx.fillRect(position*squareSide, 0, 525, 525);
+        }
+        if((brushX - offset) < 0) {
+            let width = offset-brushX;
+            ctx.fillStyle = "grey";
+            ctx.fillRect(0, 0, width*squareSide, 525);
+        }
+        if((brushY + offset) > this.gridInstance.height) {
+            let position = this.gridInstance.height - (brushY - offset);
+            ctx.fillStyle = "grey";
+            ctx.fillRect(0, position*squareSide, 525, 525);
+        }
+        if((brushY - offset) < 0) {
+            let height = offset-brushY;
+            ctx.fillStyle = "grey";
+            ctx.fillRect(0, 0, 525, height*squareSide);
+        }
         let buffer = canvas.toBuffer('image/png');
         res.writeHead(200, {
             'Content-Type': 'image/png',
@@ -65,6 +89,9 @@ class gridWeb {
         }
         //res.render('renderGrid.ejs', { 'pointData' :  paintedData});
         res.render('renderGrid.ejs', { 'pointData' :  paintedData});
+    }
+    canvasUpdate(x, y, color) {
+        this.io.emit('tilePainted', {x, y, color});
     }
 }
 module.exports = gridWeb;
