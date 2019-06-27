@@ -5,6 +5,9 @@ let database;
 
 class Grid {
     constructor (_width, _height) {
+        //events
+        this.onTilePaint = null;
+        //vars
         this.width  = _width;
         this.height = _height;
         this.grid =    [];
@@ -125,7 +128,7 @@ class Grid {
     checkBounds(direction, brush) {
         switch(direction) {
             case 1: //up
-                if(brush[1]+1 >= this.height) {
+                if(brush[1] <= 0) {
                     return false;
                 }
                 break;
@@ -135,7 +138,7 @@ class Grid {
                 }
                 break;
             case 3: //down
-                if(brush[1] <= 0) {
+                if(brush[1]+1 >= this.height) {
                     return false;
                 }
                 break;
@@ -186,27 +189,39 @@ class Grid {
         }
         switch(direction) {
             case 1: //up
-                    this.brushes[guild][1]--; //update y position
-                if( this.brushes[guild][3]) {
+                this.brushes[guild][1]--; //update y position
+                if(this.brushes[guild][3]) {
                     this.grid[this.brushes[guild][1]][this.brushes[guild][0]] = this.brushes[guild][2]; //color tile at grid[y][x]
+                    if(this.onTilePaint !== null) {
+                        this.onTilePaint(this.brushes[guild][0], this.brushes[guild][1], this.brushes[guild][2]); //(x, y, color)
+                    }
                 }
                 break;
             case 2: //right
                 this.brushes[guild][0]++; //update x position
-                if( this.brushes[guild][3]) {
+                if(this.brushes[guild][3]) {
                     this.grid[this.brushes[guild][1]][this.brushes[guild][0]] = this.brushes[guild][2]; //color tile at grid[y][x]
+                    if(this.onTilePaint !== null) {
+                        this.onTilePaint(this.brushes[guild][0], this.brushes[guild][1], this.brushes[guild][2]); //(x, y, color)
+                    }
                 }
                 break;
             case 3: //down
                 this.brushes[guild][1]++; //update y position
                 if(this.brushes[guild][3]) {
                     this.grid[this.brushes[guild][1]][this.brushes[guild][0]] = this.brushes[guild][2]; //color tile at grid[y][x]
+                    if(this.onTilePaint !== null) {
+                        this.onTilePaint(this.brushes[guild][0], this.brushes[guild][1], this.brushes[guild][2]); //(x, y, color)
+                    }
                 }
                 break;
             case 4: //left
                 this.brushes[guild][0]--; //update x position
                 if(this.brushes[guild][3]) {
                     this.grid[this.brushes[guild][1]][this.brushes[guild][0]] = this.brushes[guild][2]; //color tile at grid[y][x]
+                    if(this.onTilePaint !== null) {
+                        this.onTilePaint(this.brushes[guild][0], this.brushes[guild][1], this.brushes[guild][2]); //(x, y, color)
+                    }
                 }
                 break;
             default:
@@ -247,7 +262,6 @@ class Grid {
                     {
                         let color = this.grid[y][x];
                         database.run("REPLACE INTO grid(x, y, color) VALUES($x, $y, $color)", {$x: x, $y: y, $color: color});
-                        console.log('<3');
                     }
                 }
             }
