@@ -1,6 +1,8 @@
 # DisPlace - A Discord Drawing Game
 #### By Kevin#3848 and SegFault#0001
 
+![Banner](https://cdn.discordapp.com/attachments/548683437524123660/593903078348947467/ua3DVYTjOs.png)
+
 Made for the June 2019 [Discord Hack Week](https://blog.discordapp.com/discord-community-hack-week-build-and-create-alongside-us-6b2a7b7bba33), DisPlace is a fun collaberative drawing tool designed to allow communities to compete or collaborate in order to draw artwork on a shared canvas.
 
 > [Come take a look at displace.cc !](https://displace.cc/)
